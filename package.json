@@ -1,14 +1,18 @@
 {
   "name": "@abofs/code-conventions",
-  "version": "0.1.0",
-  "description": "Shared ESLint and Prettier configurations for abofs projects",
+  "version": "0.2.0",
+  "description": "Shared ESLint, Prettier, and Ember linting configurations for abofs projects",
   "type": "module",
   "exports": {
     "./prettier": "./prettier.config.js",
-    "./eslint": "./eslint.config.js"
+    "./eslint": "./eslint.config.js",
+    "./eslint-ember": "./eslint-ember.config.js",
+    "./template-lint": "./template-lint.config.js"
   },
   "files": [
     "eslint.config.js",
+    "eslint-ember.config.js",
+    "template-lint.config.js",
     "prettier.config.js",
     "README.md"
   ],
@@ -28,7 +32,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@eslint/js": "^10.0.1",
+    "ember-eslint-parser": "^0.5.13",
+    "ember-template-lint": "^7.9.3",
     "eslint": "^10.0.0",
+    "eslint-plugin-ember": "^12.7.5",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "typescript-eslint": "^8.56.0"

@@ -1,6 +1,6 @@
 # @abofs/code-conventions
 
-Shared ESLint and Prettier configurations for all abofs projects. This is the single source of truth for code style — projects import these configs rather than defining their own.
+Shared ESLint, Prettier, and Ember linting configurations for all abofs projects. This is the single source of truth for code style — projects import these configs rather than defining their own.
 
 ## Installation
 
@@ -42,6 +42,122 @@ With project-specific overrides:
 import configs from '@abofs/code-conventions/eslint';
 export default [...configs, { rules: { 'no-console': 'warn' } }];
 ```
+
+### Ember ESLint (for Ember Polaris projects)
+
+For Ember projects using the Polaris paradigm (template-tag components, `.gjs`/`.gts` files):
+
+```js
+// eslint.config.js
+import emberConfigs from '@abofs/code-conventions/eslint-ember';
+import baseConfigs from '@abofs/code-conventions/eslint';
+export default [...emberConfigs, ...baseConfigs, { /* project overrides */ }];
+```
+
+**Layering order matters:** Ember configs go first, then base configs (so base JS/TS rules take precedence where they overlap), then project overrides win last.
+
+What it includes:
+- `eslint-plugin-ember` recommended rules for `.js`, `.ts`, `.gjs`, `.gts`
+- `ember-eslint-parser` for template-tag (`<template>`) syntax in `.gjs`/`.gts` files
+- Polaris-specific rules that enforce modern patterns and disallow deprecated APIs
+
+### Ember Template Lint
+
+For Handlebars template linting (both standalone `.hbs` and as a companion to ESLint):
+
+```js
+// .template-lintrc.js
+import config from '@abofs/code-conventions/template-lint';
+export default config;
+```
+
+With project overrides:
+
+```js
+import config from '@abofs/code-conventions/template-lint';
+export default {
+  ...config,
+  rules: {
+    ...config.rules,
+    'no-bare-strings': 'error', // escalate from warn to error
+  },
+};
+```
+
+What it includes:
+- `ember-template-lint` recommended preset as base
+- Polaris rules: no `{{action}}`, no curly invocation, no implicit this, no `{{mut}}`
+- Accessibility rules enabled
+- `no-bare-strings` set to `warn` (i18n readiness — escalate when ready)
+- Block indentation set to 2 spaces (matching Prettier config)
+
+---
+
+## Ember Polaris Conventions
+
+> Our Ember projects follow the **Polaris** paradigm (Ember v6+). This section documents
+> the modern patterns we enforce and the deprecated patterns we disallow.
+
+### Template-Tag Components (.gjs / .gts)
+
+Polaris introduces **First-Class Component Templates** — components are authored in `.gjs` (JavaScript) or `.gts` (TypeScript) files using the `<template>` tag:
+
+```gjs
+// app/components/greeting.gjs
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+
+export default class Greeting extends Component {
+  @tracked name = 'world';
+
+  <template>
+    <h1>Hello, {{this.name}}!</h1>
+  </template>
+}
+```
+
+Template-only components are even simpler:
+
+```gjs
+// app/components/badge.gjs
+<template>
+  <span class="badge">{{@label}}</span>
+</template>
+```
+
+### Reactivity Model
+
+- Use `@tracked` for reactive state — **not** computed properties
+- No `this.get()` / `this.set()` — use native property access
+- No observers — derive state from tracked properties
+- No computed property macros in native classes
+
+### What's Deprecated (and linted against)
+
+| Deprecated Pattern | Modern Replacement |
+| --- | --- |
+| `Ember.extend()` / classic classes | Native ES classes |
+| Classic components (`@ember/component`) | Glimmer components (`@glimmer/component`) |
+| `{{action}}` modifier | `{{on}}` modifier + `@action` decorator |
+| `this.get()` / `this.set()` | Native property access with `@tracked` |
+| Computed properties | `@tracked` + getters |
+| Mixins | Utilities, decorators, or composition |
+| Observers | Derived state from `@tracked` |
+| `{{input}}` / `{{textarea}}` | Native `<input>` / `<textarea>` |
+| Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />` |
+| Implicit `this` in templates | Explicit `this.` or `@` prefix |
+| `@ember/render-modifiers` | Custom modifiers or `ember-modifier` |
+| `ember-data` imports | `@ember-data/` scoped imports (Warp Drive) |
+
+### Warp Drive (formerly Ember Data)
+
+Ember Data has been rebranded as **Warp Drive**. Use `@ember-data/` scoped package imports. The linting enforces RFC 395 import paths.
+
+### Services & Routing
+
+- Explicitly inject all services with `@service` — no implicit injections
+- Use `RouterService` for transitions — not `this.transitionTo()` on routes/controllers
+- Controllers are discouraged (`no-controllers: warn`) — prefer passing data through route models and component args
 
 ---
 
