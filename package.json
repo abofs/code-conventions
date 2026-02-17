@@ -1,0 +1,36 @@
+{
+  "name": "@abofs/code-conventions",
+  "version": "0.1.0",
+  "description": "Shared ESLint and Prettier configurations for abofs projects",
+  "type": "module",
+  "exports": {
+    "./prettier": "./prettier.config.js",
+    "./eslint": "./eslint.config.js"
+  },
+  "files": [
+    "eslint.config.js",
+    "prettier.config.js",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint --fix . && prettier --write ."
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abofs/code-conventions.git"
+  },
+  "author": "Stone Costa",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.0",
+    "globals": "^17.3.0",
+    "prettier": "^3.8.1",
+    "typescript-eslint": "^8.56.0"
+  }
+}
