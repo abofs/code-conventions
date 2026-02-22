@@ -8,6 +8,16 @@ Shared ESLint, Prettier, and Ember linting configurations for all abofs projects
 npm install --save-dev @abofs/code-conventions
 ```
 
+This package declares its ESLint/Prettier/template-lint dependencies as **peer dependencies**. Your project must install them directly:
+
+```bash
+npm install --save-dev eslint @eslint/js typescript-eslint globals prettier
+# For Ember projects:
+npm install --save-dev eslint-plugin-ember ember-eslint-parser ember-template-lint
+# For projects using QUnit:
+npm install --save-dev eslint-plugin-qunit
+```
+
 ## Usage
 
 ### Prettier

@@ -1,6 +1,6 @@
 {
   "name": "@abofs/code-conventions",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shared ESLint, Prettier, and Ember linting configurations for abofs projects",
   "type": "module",
   "exports": {
@@ -30,14 +30,21 @@
   },
   "author": "Stone Costa",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@eslint/js": "^10.0.1",
-    "ember-eslint-parser": "^0.5.13",
-    "ember-template-lint": "^7.9.3",
-    "eslint": "^10.0.0",
-    "eslint-plugin-ember": "^12.7.5",
-    "globals": "^17.3.0",
-    "prettier": "^3.8.1",
-    "typescript-eslint": "^8.56.0"
+  "peerDependencies": {
+    "@eslint/js": "^9.0.0 || ^10.0.0",
+    "ember-eslint-parser": "^0.5.0",
+    "ember-template-lint": "^7.0.0",
+    "eslint": "^9.0.0 || ^10.0.0",
+    "eslint-plugin-ember": "^12.0.0",
+    "eslint-plugin-qunit": "^8.0.0",
+    "globals": "^16.0.0 || ^17.0.0",
+    "prettier": "^3.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "ember-eslint-parser": { "optional": true },
+    "ember-template-lint": { "optional": true },
+    "eslint-plugin-ember": { "optional": true },
+    "eslint-plugin-qunit": { "optional": true }
   }
 }

@@ -82,9 +82,14 @@ const configs = [
     }
   },
 
-  // Test files — relaxed rules
+  // Test files — relaxed rules + QUnit
   {
-    files: ['**/test/**/*.js', '**/*-test.js', '**/*.test.js'],
+    files: [
+      '**/test/**/*.{js,ts,gjs,gts}',
+      '**/tests/**/*.{js,ts,gjs,gts}',
+      '**/*-test.{js,ts,gjs,gts}',
+      '**/*.test.{js,ts,gjs,gts}'
+    ],
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^(module|test)$' }],
       '@typescript-eslint/no-unused-expressions': 'off'

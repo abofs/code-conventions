@@ -82,8 +82,7 @@ const configs = [
       'ember/use-ember-data-rfc-395-imports': 'error', // Use @ember-data/ imports
 
       // --- Template rules (via ember-eslint-parser in gjs/gts) ---
-      'ember/template-no-debugger': 'error',
-      'ember/template-no-log': 'error',
+      'ember/template-indent': 'error',
     },
   },
 
