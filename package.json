@@ -42,9 +42,17 @@
     "typescript-eslint": "^8.0.0"
   },
   "peerDependenciesMeta": {
-    "ember-eslint-parser": { "optional": true },
-    "ember-template-lint": { "optional": true },
-    "eslint-plugin-ember": { "optional": true },
-    "eslint-plugin-qunit": { "optional": true }
+    "ember-eslint-parser": {
+      "optional": true
+    },
+    "ember-template-lint": {
+      "optional": true
+    },
+    "eslint-plugin-ember": {
+      "optional": true
+    },
+    "eslint-plugin-qunit": {
+      "optional": true
+    }
   }
 }

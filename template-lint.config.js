@@ -4,7 +4,7 @@
  * Usage — in your project's .template-lintrc.js:
  *
  *   import config from '@abofs/code-conventions/template-lint';
- *   export default { ...config, rules: { ...config.rules, /* overrides *​/ } };
+ *   export default { ...config, rules: { ...config.rules, ...overrides } };
  *
  * Or if your project uses CJS:
  *
@@ -92,15 +92,16 @@ const config = {
     // Stylistic — block indentation (2 spaces, matching our Prettier config)
     'block-indentation': 2,
 
-    // Self-closing void elements
-    'self-closing-void-elements': 'error',
+    // Self-closing void elements — disabled; Prettier formats void elements
+    // as self-closing (<br />) which conflicts with the 'error' setting.
+    'self-closing-void-elements': false,
 
     // Require valid link text for accessibility
-    'no-invalid-link-text': 'error',
+    'no-invalid-link-text': 'error'
   },
 
   // Ignore generated / build artifacts
-  ignore: ['blueprints/**', 'dist/**', 'node_modules/**'],
+  ignore: ['blueprints/**', 'dist/**', 'node_modules/**']
 };
 
 export default config;
