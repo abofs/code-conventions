@@ -8,7 +8,7 @@
  *
  *   import emberConfigs from '@abofs/code-conventions/eslint-ember';
  *   import baseConfigs  from '@abofs/code-conventions/eslint';
- *   export default [...emberConfigs, ...baseConfigs, { /* project overrides *​/ }];
+ *   export default [...emberConfigs, ...baseConfigs, { ...projectOverrides }];
  *
  * This ordering means:
  *   1. Ember plugin rules (recommended) are applied first
@@ -30,9 +30,9 @@ const configs = [
     languageOptions: {
       ...gjs.languageOptions,
       globals: {
-        ...globals.browser,
-      },
-    },
+        ...globals.browser
+      }
+    }
   },
 
   // ── GTS (template-tag TypeScript) ──
@@ -41,9 +41,9 @@ const configs = [
     languageOptions: {
       ...gts.languageOptions,
       globals: {
-        ...globals.browser,
-      },
-    },
+        ...globals.browser
+      }
+    }
   },
 
   // ── Polaris-specific rule overrides ──
@@ -53,51 +53,51 @@ const configs = [
     files: ['**/*.{js,ts,gjs,gts}'],
     rules: {
       // --- Enforce Glimmer / Polaris patterns ---
-      'ember/no-classic-classes': 'error',           // No Ember.extend() — use native classes
-      'ember/no-classic-components': 'error',        // No classic components — use Glimmer
+      'ember/no-classic-classes': 'error', // No Ember.extend() — use native classes
+      'ember/no-classic-components': 'error', // No classic components — use Glimmer
       'ember/no-component-lifecycle-hooks': 'error', // No didInsertElement etc. — use modifiers
-      'ember/no-actions-hash': 'error',              // No actions: {} — use @action decorator
-      'ember/no-mixins': 'error',                    // Mixins are deprecated
-      'ember/no-new-mixins': 'error',                // Don't create new mixins
-      'ember/no-observers': 'error',                 // Observers are deprecated — use @tracked
-      'ember/require-tagless-components': 'error',   // No wrapper elements
+      'ember/no-actions-hash': 'error', // No actions: {} — use @action decorator
+      'ember/no-mixins': 'error', // Mixins are deprecated
+      'ember/no-new-mixins': 'error', // Don't create new mixins
+      'ember/no-observers': 'error', // Observers are deprecated — use @tracked
+      'ember/require-tagless-components': 'error', // No wrapper elements
 
       // --- Computed properties → @tracked ---
       'ember/no-computed-properties-in-native-classes': 'error', // Use @tracked, not computed()
-      'ember/no-get': 'error',                       // Use native getters, not this.get()
-      'ember/no-get-with-default': 'error',          // Deprecated
+      'ember/no-get': 'error', // Use native getters, not this.get()
+      'ember/no-get-with-default': 'error', // Deprecated
 
       // --- Deprecation guards ---
-      'ember/no-array-prototype-extensions': 'error',  // No Ember array extensions
+      'ember/no-array-prototype-extensions': 'error', // No Ember array extensions
       'ember/no-string-prototype-extensions': 'error', // No Ember string extensions
       'ember/no-function-prototype-extensions': 'error',
-      'ember/no-at-ember-render-modifiers': 'error',   // Use proper modifiers
-      'ember/no-implicit-injections': 'error',         // Explicitly inject services
+      'ember/no-at-ember-render-modifiers': 'error', // Use proper modifiers
+      'ember/no-implicit-injections': 'error', // Explicitly inject services
       'ember/no-deprecated-router-transition-methods': 'error', // Use router service
 
       // --- Controllers ---
-      'ember/no-controllers': 'warn',                // Discourage controllers (use route models + components)
+      'ember/no-controllers': 'warn', // Discourage controllers (use route models + components)
 
       // --- Ember Data / Warp Drive ---
       'ember/use-ember-data-rfc-395-imports': 'error', // Use @ember-data/ imports
 
       // --- Template rules (via ember-eslint-parser in gjs/gts) ---
-      'ember/template-indent': 'error',
-    },
+      'ember/template-indent': 'error'
+    }
   },
 
   // ── Test file relaxations ──
   {
     files: ['**/tests/**/*.{js,ts,gjs,gts}', '**/*-test.{js,ts,gjs,gts}'],
     rules: {
-      'ember/no-controllers': 'off',
-    },
+      'ember/no-controllers': 'off'
+    }
   },
 
   // ── Ignore patterns ──
   {
-    ignores: ['node_modules/**', 'dist/**', 'declarations/**', 'blueprints/**'],
-  },
+    ignores: ['node_modules/**', 'dist/**', 'declarations/**', 'blueprints/**']
+  }
 ];
 
 export default configs;

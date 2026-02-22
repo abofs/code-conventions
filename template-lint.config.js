@@ -4,7 +4,7 @@
  * Usage — in your project's .template-lintrc.js:
  *
  *   import config from '@abofs/code-conventions/template-lint';
- *   export default { ...config, rules: { ...config.rules, /* overrides *​/ } };
+ *   export default { ...config, rules: { ...config.rules, ...overrides } };
  *
  * Or if your project uses CJS:
  *
@@ -97,11 +97,11 @@ const config = {
     'self-closing-void-elements': false,
 
     // Require valid link text for accessibility
-    'no-invalid-link-text': 'error',
+    'no-invalid-link-text': 'error'
   },
 
   // Ignore generated / build artifacts
-  ignore: ['blueprints/**', 'dist/**', 'node_modules/**'],
+  ignore: ['blueprints/**', 'dist/**', 'node_modules/**']
 };
 
 export default config;
