@@ -61,12 +61,19 @@ For Ember projects using the Polaris paradigm (template-tag components, `.gjs`/`
 // eslint.config.js
 import emberConfigs from '@abofs/code-conventions/eslint-ember';
 import baseConfigs from '@abofs/code-conventions/eslint';
-export default [...emberConfigs, ...baseConfigs, { /* project overrides */ }];
+export default [
+  ...emberConfigs,
+  ...baseConfigs,
+  {
+    /* project overrides */
+  }
+];
 ```
 
 **Layering order matters:** Ember configs go first, then base configs (so base JS/TS rules take precedence where they overlap), then project overrides win last.
 
 What it includes:
+
 - `eslint-plugin-ember` recommended rules for `.js`, `.ts`, `.gjs`, `.gts`
 - `ember-eslint-parser` for template-tag (`<template>`) syntax in `.gjs`/`.gts` files
 - Polaris-specific rules that enforce modern patterns and disallow deprecated APIs
@@ -89,12 +96,13 @@ export default {
   ...config,
   rules: {
     ...config.rules,
-    'no-bare-strings': 'error', // escalate from warn to error
-  },
+    'no-bare-strings': 'error' // escalate from warn to error
+  }
 };
 ```
 
 What it includes:
+
 - `ember-template-lint` recommended preset as base
 - Polaris rules: no `{{action}}`, no curly invocation, no implicit this, no `{{mut}}`
 - Accessibility rules enabled
@@ -144,20 +152,20 @@ Template-only components are even simpler:
 
 ### What's Deprecated (and linted against)
 
-| Deprecated Pattern | Modern Replacement |
-| --- | --- |
-| `Ember.extend()` / classic classes | Native ES classes |
-| Classic components (`@ember/component`) | Glimmer components (`@glimmer/component`) |
-| `{{action}}` modifier | `{{on}}` modifier + `@action` decorator |
-| `this.get()` / `this.set()` | Native property access with `@tracked` |
-| Computed properties | `@tracked` + getters |
-| Mixins | Utilities, decorators, or composition |
-| Observers | Derived state from `@tracked` |
-| `{{input}}` / `{{textarea}}` | Native `<input>` / `<textarea>` |
-| Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />` |
-| Implicit `this` in templates | Explicit `this.` or `@` prefix |
-| `@ember/render-modifiers` | Custom modifiers or `ember-modifier` |
-| `ember-data` imports | `@ember-data/` scoped imports (Warp Drive) |
+| Deprecated Pattern                            | Modern Replacement                         |
+| --------------------------------------------- | ------------------------------------------ |
+| `Ember.extend()` / classic classes            | Native ES classes                          |
+| Classic components (`@ember/component`)       | Glimmer components (`@glimmer/component`)  |
+| `{{action}}` modifier                         | `{{on}}` modifier + `@action` decorator    |
+| `this.get()` / `this.set()`                   | Native property access with `@tracked`     |
+| Computed properties                           | `@tracked` + getters                       |
+| Mixins                                        | Utilities, decorators, or composition      |
+| Observers                                     | Derived state from `@tracked`              |
+| `{{input}}` / `{{textarea}}`                  | Native `<input>` / `<textarea>`            |
+| Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />`           |
+| Implicit `this` in templates                  | Explicit `this.` or `@` prefix             |
+| `@ember/render-modifiers`                     | Custom modifiers or `ember-modifier`       |
+| `ember-data` imports                          | `@ember-data/` scoped imports (Warp Drive) |
 
 ### Warp Drive (formerly Ember Data)
 
