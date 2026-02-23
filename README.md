@@ -111,6 +111,84 @@ What it includes:
 
 ---
 
+## Pre-commit Hooks (husky + lint-staged)
+
+Enforce formatting and linting automatically on every commit. Solves unformatted code reaching the repo.
+
+### Install
+
+```bash
+pnpm add -D husky lint-staged
+```
+
+### Setup
+
+1. **Add a `prepare` script** to your root `package.json`:
+
+```json
+{
+  "scripts": {
+    "prepare": "husky"
+  }
+}
+```
+
+2. **Create `lint-staged.config.js`** at the workspace root:
+
+```js
+import config from '@abofs/code-conventions/lint-staged';
+export default config;
+```
+
+3. **Initialize the hook** (one-time, idempotent):
+
+```bash
+pnpm exec code-conventions-setup
+```
+
+This writes `.husky/pre-commit` with:
+
+```sh
+pnpm lint-staged
+```
+
+4. **Run `pnpm install`** to let the `prepare` script initialize husky:
+
+```bash
+pnpm install
+```
+
+### What the hook enforces
+
+| Files                            | Action                              |
+| -------------------------------- | ----------------------------------- |
+| `*.ts`, `*.gts`, `*.js`, `*.mjs` | `eslint --fix` + `prettier --write` |
+| `*.hbs`                          | `ember-template-lint --fix`         |
+| `*.rs`                           | `cargo fmt --all` (workspace-wide)  |
+| `*.css`                          | `prettier --write`                  |
+
+### Requirements
+
+- For pnpm monorepos: `shamefully-hoist=true` in `.npmrc` so that `eslint`, `prettier`, and `ember-template-lint` are resolvable from the workspace root.
+- `cargo` on `PATH` for Rust formatting.
+- The hook is idempotent — running `pnpm exec code-conventions-setup` again safely overwrites with the same content.
+
+### Project-level overrides
+
+To extend or narrow the shared config:
+
+```js
+// lint-staged.config.js
+import baseConfig from '@abofs/code-conventions/lint-staged';
+
+export default {
+  ...baseConfig,
+  '**/*.graphql': ['prettier --write']
+};
+```
+
+---
+
 ## Ember Polaris Conventions
 
 > Our Ember projects follow the **Polaris** paradigm (Ember v6+). This section documents
