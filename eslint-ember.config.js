@@ -82,7 +82,13 @@ const configs = [
       'ember/use-ember-data-rfc-395-imports': 'error', // Use @ember-data/ imports
 
       // --- Template rules (via ember-eslint-parser in gjs/gts) ---
-      'ember/template-indent': 'error'
+      // DISABLED: ember/template-indent crashes on .gts files with valueless
+      // HTML attributes (e.g. data-test-*). The rule wraps ESLint's core
+      // indent rule which throws "Cannot read properties of null (reading
+      // 'range')" on JSXAttribute nodes without values. No upstream fix
+      // available (12.7.5 is latest). Re-enable when patched.
+      // Tracking: eslint-plugin-ember + ESLint 9.x indent rule interaction
+      'ember/template-indent': 'off'
     }
   },
 
