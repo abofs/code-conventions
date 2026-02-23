@@ -345,6 +345,7 @@ All conventions below were derived from the Stonyx ecosystem codebase (the refer
 - **Nested modules**: `module('parent', function() { module('child', function() { ... }) })`
 - **Async tests**: `test('name', async function(assert) { ... })`
 - **No `this` context** — use closure variables, not QUnit's `this`
+- **No hardcoded delays** — tests MUST NOT use `delay()`, `setTimeout()`, `sleep()`, or fixed-duration promises to wait for async state. A hardcoded delay is a race condition by design — there is no "safe" delay value. Use deterministic gates instead: manually-controlled promises, test waiters, or event-driven assertions. If you need to observe an intermediate state (e.g., loading UI), hold the async operation with a promise the test controls and release it explicitly after asserting.
 
 ### Error Handling
 
