@@ -23,6 +23,7 @@
     "README.md"
   ],
   "scripts": {
+    "test": "eslint . && prettier --check .",
     "lint": "eslint . && prettier --check .",
     "lint:fix": "eslint --fix . && prettier --write ."
   },
@@ -67,5 +68,12 @@
     "lint-staged": {
       "optional": true
     }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.2",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "typescript-eslint": "^8.56.1"
   }
 }
