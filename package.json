@@ -28,7 +28,8 @@
     "lint:fix": "eslint --fix . && prettier --write ."
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "repository": {
     "type": "git",
