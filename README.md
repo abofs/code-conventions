@@ -221,6 +221,35 @@ Template-only components are even simpler:
 </template>
 ```
 
+### Routable Components Pattern (Mandatory)
+
+Routes use **routable `.gts` components** — NOT separate route `.ts` class files + template files.
+
+```gts
+// app/templates/grocery.gts — this IS the route's output
+import type { TOC } from '@ember/component/template-only';
+import { Request } from '@warp-drive/ember';
+import { queryGroceryItems } from '../builders/grocery-item';
+
+const GroceryRoute: TOC<{}> = <template>
+  <Request @request={{queryGroceryItems}}>
+    <:content as |items|>
+      {{! render grocery list }}
+    </:content>
+    <:loading>Loading...</:loading>
+  </Request>
+</template>;
+
+export default GroceryRoute;
+```
+
+**Rules:**
+- **No empty route classes.** `export default class GroceryRoute extends Route {}` is dead code — delete it.
+- **Route `.ts` files ONLY when needed** for `beforeModel` hooks (redirects, guards) or `model()` hooks. If a route class does nothing, it shouldn't exist.
+- **No controllers.** Ever. (`ember/no-controllers: 'error'`)
+- **Data loading in the component** via `<Request>`, not in route `model()` hooks (unless you need blocking data before render).
+- Route templates live in `app/templates/` as `.gts` files — they are routable components.
+
 ### Reactivity Model
 
 - Use `@tracked` for reactive state — **not** computed properties

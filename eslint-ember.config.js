@@ -75,8 +75,9 @@ const configs = [
       'ember/no-implicit-injections': 'error', // Explicitly inject services
       'ember/no-deprecated-router-transition-methods': 'error', // Use router service
 
-      // --- Controllers ---
-      'ember/no-controllers': 'warn', // Discourage controllers (use route models + components)
+      // --- Routable Components (Polaris pattern) ---
+      'ember/no-controllers': 'error', // Controllers are eliminated — use routable .gts components
+      'ember/no-empty-glimmer-component-classes': 'error', // No empty component classes — use template-only
 
       // --- Ember Data / Warp Drive ---
       'ember/use-ember-data-rfc-395-imports': 'error', // Use @ember-data/ imports
