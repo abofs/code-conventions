@@ -243,11 +243,64 @@ Template-only components are even simpler:
 | Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />`           |
 | Implicit `this` in templates                  | Explicit `this.` or `@` prefix             |
 | `@ember/render-modifiers`                     | Custom modifiers or `ember-modifier`       |
-| `ember-data` imports                          | `@ember-data/` scoped imports (Warp Drive) |
+| `ember-data` imports                          | `@warp-drive/*` / `warp-drive` imports     |
 
 ### Warp Drive (formerly Ember Data)
 
-Ember Data has been rebranded as **Warp Drive**. Use `@ember-data/` scoped package imports. The linting enforces RFC 395 import paths.
+Ember Data has been rebranded as **Warp Drive**. Use `@warp-drive/*` and `warp-drive` scoped package imports. The linting disallows legacy `ember-data` imports and enforces modern WarpDrive patterns.
+
+#### WarpDrive Conventions (Agent-Readable)
+
+These conventions apply to all abofs Ember projects using WarpDrive. They are documented here as Layer 2 conventions (structured config) for both human and agent consumption.
+
+**Data Layer Architecture:**
+
+- **All data types must have registered WarpDrive schemas.** Every resource type (`recipe`, `ingredient`, `grocery-item`, etc.) must have a corresponding schema definition in `app/schemas/` and be registered in `app/schemas/index.ts`. No ad-hoc data shapes — if data flows through WarpDrive, it has a schema.
+
+- **All API endpoints must have typed request builders.** Every API call must use a request builder function (in `app/builders/`) that returns a `RequestInfo` object. Request builders are the typed contract between the app and the API. No constructing request objects inline in components or services.
+
+- **Mock handlers must exist for every request builder.** In development/test environments, the MockHandler must handle every URL pattern that a request builder can produce. If you add a new builder, add a corresponding mock handler route. The mock layer is the primary development and testing interface.
+
+- **`<Request>` component pattern for all async data rendering.** All data loading in templates must use the `<Request>` component from `@warp-drive/ember`. This provides declarative `<:loading>`, `<:content>`, and `<:error>` states. No manual loading state tracking with `@tracked isLoading` flags.
+
+  ```gts
+  import { Request } from '@warp-drive/ember';
+  import { getRecipe } from '../builders/recipe';
+
+  <template>
+    <Request @request={{getRecipe @id}}>
+      <:loading><LoadingSkeleton /></:loading>
+      <:content as |recipe|><RecipeDetail @recipe={{recipe}} /></:content>
+      <:error as |error|><ErrorMessage @error={{error}} /></:error>
+    </Request>
+  </template>
+  ```
+
+- **JSON:API compliance for all mock fixtures.** Seed data and mock responses must conform to JSON:API resource format (`{ type, id, attributes, relationships }`). This ensures seamless transition from mock to real API responses.
+
+**UI & Accessibility:**
+
+- **Lucide icons via ember-svg-jar (or inline SVG components) for UI/navigation.** Use Lucide icon set for all structural UI icons. Emojis are acceptable only for playful, content-level elements (e.g., decision cards, celebration screens) — never for navigation or action buttons.
+
+- **WCAG 2.1 AA accessibility compliance.** All interactive elements must have appropriate ARIA attributes. Keyboard navigation must work for all flows. Focus management must be explicit on route transitions and modal interactions. Specific requirements:
+  - All buttons and links must have accessible labels (visible text or `aria-label`)
+  - Form inputs must have associated labels
+  - Dynamic content updates must use `aria-live` regions where appropriate
+  - Color contrast must meet AA ratio (4.5:1 for normal text, 3:1 for large text)
+  - All functionality must be operable via keyboard alone
+
+**Automated Enforcement (Layer 1):**
+
+The following rules are enforced via ESLint in `eslint-ember.config.js`:
+
+| Rule | Enforcement | Rationale |
+|------|------------|-----------|
+| No raw `fetch()` | `no-restricted-globals` | All data access via `store.request()` with request builders |
+| No `ember-data` imports | `no-restricted-imports` | Only `@warp-drive/*` and `warp-drive` imports |
+| No classic components | `ember/no-classic-components` | All components must be `.gts` Glimmer components |
+| No inline styles | Convention (see note) | Use CSS custom properties from design tokens |
+
+> **Note on inline styles:** Dynamic `style` attributes are acceptable when computed from component state (e.g., progress bar width, SVG stroke-dashoffset). Static inline styles are not — use CSS classes with custom properties from `tokens.css` instead. This is a Layer 2 convention enforced in code review, not an ESLint rule, because the distinction requires judgment.
 
 ### Services & Routing
 
