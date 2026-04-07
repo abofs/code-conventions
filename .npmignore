@@ -1,0 +1,14 @@
+.git/
+.github/
+.claude/
+docs/
+node_modules/
+pnpm-lock.yaml
+.prettierignore
+.gitignore
+.npmignore
+.env
+.npmrc
+test/
+scripts/
+*.log
