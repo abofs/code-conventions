@@ -19,7 +19,7 @@
 
 /** @type {import('lint-staged').Config} */
 const config = {
-  '**/*.{ts,gts,js,mjs}': ['eslint --fix', 'prettier --write'],
+  '**/*.{ts,gts,gjs,js,mjs}': ['eslint --fix', 'prettier --write'],
   '**/*.hbs': ['ember-template-lint --fix'],
   '**/*.rs': () => 'cargo fmt --all',
   '**/*.css': ['prettier --write']
