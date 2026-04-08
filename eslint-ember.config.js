@@ -75,11 +75,44 @@ const configs = [
       'ember/no-implicit-injections': 'error', // Explicitly inject services
       'ember/no-deprecated-router-transition-methods': 'error', // Use router service
 
-      // --- Controllers ---
-      'ember/no-controllers': 'warn', // Discourage controllers (use route models + components)
+      // --- Routable Components (Polaris pattern) ---
+      'ember/no-controllers': 'error', // Controllers are eliminated — use routable .gts components
+      'ember/no-empty-glimmer-component-classes': 'error', // No empty component classes — use template-only
 
       // --- Ember Data / Warp Drive ---
       'ember/use-ember-data-rfc-395-imports': 'error', // Use @ember-data/ imports
+
+      // --- WarpDrive enforcement ---
+      // No raw fetch() — all data access must go through WarpDrive store.request()
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'fetch',
+          message:
+            'Use store.request() via WarpDrive request builders instead of raw fetch(). See @abofs/code-conventions README for WarpDrive patterns.'
+        }
+      ],
+
+      // No classic ember-data imports — only @warp-drive/* and warp-drive imports
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            { name: 'ember-data', message: 'Use @warp-drive/* or warp-drive imports instead of ember-data.' },
+            { name: 'ember-data/model', message: 'Use WarpDrive SchemaRecord instead of ember-data/model.' },
+            { name: 'ember-data/serializer', message: 'Serializers are deprecated. Use WarpDrive request builders.' },
+            { name: 'ember-data/adapter', message: 'Adapters are deprecated. Use WarpDrive request handlers.' },
+            { name: 'ember-data/attr', message: 'Use WarpDrive schema field definitions instead of attr().' },
+            { name: 'ember-data/relationships', message: 'Use WarpDrive schema relationship definitions.' }
+          ],
+          patterns: [
+            {
+              group: ['ember-data/*'],
+              message: 'Use @warp-drive/* or warp-drive imports instead of ember-data/*.'
+            }
+          ]
+        }
+      ],
 
       // --- Template rules (via ember-eslint-parser in gjs/gts) ---
       // DISABLED: ember/template-indent crashes on .gts files with valueless
