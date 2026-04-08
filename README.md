@@ -244,6 +244,7 @@ export default GroceryRoute;
 ```
 
 **Rules:**
+
 - **No empty route classes.** `export default class GroceryRoute extends Route {}` is dead code — delete it.
 - **Route `.ts` files ONLY when needed** for `beforeModel` hooks (redirects, guards) or `model()` hooks. If a route class does nothing, it shouldn't exist.
 - **No controllers.** Ever. (`ember/no-controllers: 'error'`)
@@ -259,20 +260,20 @@ export default GroceryRoute;
 
 ### What's Deprecated (and linted against)
 
-| Deprecated Pattern                            | Modern Replacement                         |
-| --------------------------------------------- | ------------------------------------------ |
-| `Ember.extend()` / classic classes            | Native ES classes                          |
-| Classic components (`@ember/component`)       | Glimmer components (`@glimmer/component`)  |
-| `{{action}}` modifier                         | `{{on}}` modifier + `@action` decorator    |
-| `this.get()` / `this.set()`                   | Native property access with `@tracked`     |
-| Computed properties                           | `@tracked` + getters                       |
-| Mixins                                        | Utilities, decorators, or composition      |
-| Observers                                     | Derived state from `@tracked`              |
-| `{{input}}` / `{{textarea}}`                  | Native `<input>` / `<textarea>`            |
-| Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />`           |
-| Implicit `this` in templates                  | Explicit `this.` or `@` prefix             |
-| `@ember/render-modifiers`                     | Custom modifiers or `ember-modifier`       |
-| `ember-data` imports                          | `@warp-drive/*` / `warp-drive` imports     |
+| Deprecated Pattern                            | Modern Replacement                        |
+| --------------------------------------------- | ----------------------------------------- |
+| `Ember.extend()` / classic classes            | Native ES classes                         |
+| Classic components (`@ember/component`)       | Glimmer components (`@glimmer/component`) |
+| `{{action}}` modifier                         | `{{on}}` modifier + `@action` decorator   |
+| `this.get()` / `this.set()`                   | Native property access with `@tracked`    |
+| Computed properties                           | `@tracked` + getters                      |
+| Mixins                                        | Utilities, decorators, or composition     |
+| Observers                                     | Derived state from `@tracked`             |
+| `{{input}}` / `{{textarea}}`                  | Native `<input>` / `<textarea>`           |
+| Curly component invocation `{{my-component}}` | Angle brackets `<MyComponent />`          |
+| Implicit `this` in templates                  | Explicit `this.` or `@` prefix            |
+| `@ember/render-modifiers`                     | Custom modifiers or `ember-modifier`      |
+| `ember-data` imports                          | `@warp-drive/*` / `warp-drive` imports    |
 
 ### Warp Drive (formerly Ember Data)
 
@@ -322,12 +323,12 @@ These conventions apply to all abofs Ember projects using WarpDrive. They are do
 
 The following rules are enforced via ESLint in `eslint-ember.config.js`:
 
-| Rule | Enforcement | Rationale |
-|------|------------|-----------|
-| No raw `fetch()` | `no-restricted-globals` | All data access via `store.request()` with request builders |
-| No `ember-data` imports | `no-restricted-imports` | Only `@warp-drive/*` and `warp-drive` imports |
-| No classic components | `ember/no-classic-components` | All components must be `.gts` Glimmer components |
-| No inline styles | Convention (see note) | Use CSS custom properties from design tokens |
+| Rule                    | Enforcement                   | Rationale                                                   |
+| ----------------------- | ----------------------------- | ----------------------------------------------------------- |
+| No raw `fetch()`        | `no-restricted-globals`       | All data access via `store.request()` with request builders |
+| No `ember-data` imports | `no-restricted-imports`       | Only `@warp-drive/*` and `warp-drive` imports               |
+| No classic components   | `ember/no-classic-components` | All components must be `.gts` Glimmer components            |
+| No inline styles        | Convention (see note)         | Use CSS custom properties from design tokens                |
 
 > **Note on inline styles:** Dynamic `style` attributes are acceptable when computed from component state (e.g., progress bar width, SVG stroke-dashoffset). Static inline styles are not — use CSS classes with custom properties from `tokens.css` instead. This is a Layer 2 convention enforced in code review, not an ESLint rule, because the distinction requires judgment.
 
